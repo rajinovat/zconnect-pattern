@@ -1,0 +1,7 @@
+<server>
+<authData id="IMS1_Auth" password="{xor}OS06Oy8oOw==" user="Fred"/>
+<imsmobile_imsConnectAdapter connectionFactoryRef="IMS1_CF" connectionProfileName="IMS1"/>
+<connectionFactory containerAuthDataRef="IMS1_Auth" id="IMS1_CF">
+<properties.gmoa hostName="ANZH.APPS.ANZ" portNumber="5051"/>
+</connectionFactory>
+</server>

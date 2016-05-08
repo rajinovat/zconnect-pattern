@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<zosConnectApi xmlns="http://www.ibm.com/zosConnect/2.0/zosConnectApi" id="zconnect-pattern">
+    <apiSpec title="zconnect-pattern" basePath="/zconnect-pattern" description="" version="1.0.0">
+        <path relativePath="/newPath1">
+            <method type="POST"/>
+            <method type="GET"/>
+            <method type="PUT"/>
+            <method type="DELETE"/>
+        </path>
+        <apiDoc docType="SWAGGER"/>
+    </apiSpec>
+</zosConnectApi>

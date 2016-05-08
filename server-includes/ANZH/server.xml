@@ -1,0 +1,68 @@
+<server description="new server">
+<include location="/var/zosconnect/servers/ANZH/ims-connections.xml" optional="true"/>
+<include location="/var/zosconnect/servers/ANZH/ims-services.xml" optional="true"/>
+<include location="/var/zosconnect/servers/ANZH/cics-services.xml" optional="true"/>
+
+    <!-- Enable features -->
+    <featureManager>
+        <feature>zosconnect:zosconnect-2.0</feature>
+        <feature>appSecurity-2.0</feature>
+        <feature>zosLocalAdapters-1.0</feature>
+        <feature>imsmobile:imsmobile-2.0</feature>
+    </featureManager>
+
+<!-- Added for IMS Mobile Feature Pack            +TL20160317 -->   
+   <variable name="imsmobile.install.dir" value="/var/imses/imsmobile/wlp-ext"/>
+   <imsmobile_imsServiceManager imsRegistryHome="./registry"/>
+<!-- End IMS Mobile Feature Pack                              -->   
+
+<!-- Added for basic security per Getting Started  +TL20160309 -->                                                  
+    <keyStore id="defaultKeyStore" password="Liberty"/>
+
+    <webAppSecurity allowFailOverToBasicAuth="true"/>
+
+    <basicRegistry id="basic1" realm="zosConnect">
+        <user name="Fred" password="fredpwd"/>
+    </basicRegistry>
+
+    <authorization-roles id="zos.connect.access.roles">
+        <security-role name="zosConnectAccess">
+            <user name="Fred"/>
+        </security-role>
+    </authorization-roles>
+<!-- End basic security addition  -->                                                                               
+
+<!-- Added for WOLA per Getting Started  +TL20160310 -->                                                            
+    <zosLocalAdapters wolaGroup="ANZH" wolaName2="CICS" wolaName3="POC"/>
+    <connectionFactory id="wolaCF" jndiName="eis/ola">
+    <properties.ola/>
+    </connectionFactory>
+<!-- End WOLA addition  -->                                                                                         
+
+<!-- Added to minimise resource consumption  +TL20160329 -->                                                        
+    <config monitorInterval="30s" updateTrigger="polled"/>
+    <applicationMonitor dropinsEnabled="true" updateTrigger="polled" pollingRate="30s"/>
+<!-- End minimise resource consumption addition  -->                                                                
+
+<!-- Added to enable global filesystem payload logging and SMF recording  +TL20160502 -->                           
+    <zosconnect_fileSystemloggerInterceptor id="fileSystemLogger" logName="payload_%SERVERNAME%" sequence="1"/>
+    <zosconnect_auditInterceptor id="auditInterceptor" sequence="2"/>
+
+    <zosconnect_zosConnectInterceptors id="interceptorList" interceptorRef="fileSystemLogger,auditInterceptor"/>
+    <zosconnect_zosConnectManager id="zosConnectGlobals" globalInterceptorsRef="interceptorList"/>
+
+<!-- End minimise resource consumption addition  -->                                                                
+
+<!-- Added to enable global filesystem payload logging and SMF recording  +TL20160502 -->                           
+    <zosconnect_fileSystemloggerInterceptor id="fileSystemLogger" logName="payload_%SERVERNAME%" sequence="1"/>
+    <zosconnect_auditInterceptor id="auditInterceptor" sequence="2"/>
+
+    <zosconnect_zosConnectInterceptors id="interceptorList" interceptorRef="fileSystemLogger,auditInterceptor"/>
+    <zosconnect_zosConnectManager id="zosConnectGlobals" globalInterceptorsRef="interceptorList"/>
+
+<!-- End enable global filesystem payload logging and SMF recording -->                                             
+
+    <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
+    <httpEndpoint host="*" httpPort="9080" httpsPort="9443" id="defaultHttpEndpoint"/>
+
+</server>

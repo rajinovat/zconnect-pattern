@@ -1,0 +1,93 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.anz.api</groupId>
+	<artifactId>api_get_cust</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	
+	          <properties>
+                <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+                <log4j2.version>2.5</log4j2.version>
+                <gitUrl>https://github.com/rajinovat/api_get_cust.git</gitUrl>
+        </properties>
+        
+  		<scm>
+  			    <url>scm:git:${gitUrl}</url>
+                <connection>scm:git:${gitUrl}</connection>
+                <developerConnection>scm:git:${gitUrl}</developerConnection>
+        </scm>
+
+        <distributionManagement>
+                <repository>
+                        <id>release</id>
+                        <url>http://localhost:8081/artifactory/ext-release-local</url>
+                        <uniqueVersion>true</uniqueVersion>
+                </repository>
+                <snapshotRepository>
+                        <id>snapshot</id>
+                        <url>http://localhost:8081/artifactory/ext-snapshot-local</url>
+                        <uniqueVersion>true</uniqueVersion>
+                </snapshotRepository>
+        </distributionManagement>
+	<build>
+		 <plugins>	
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>make-zip-pre-aar</id>
+				       	    <phase>compile</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+			      <configuration>
+					<appendAssemblyId>false</appendAssemblyId>
+					<attach>true</attach>
+					<descriptors>
+              				<descriptor>zip-resources.assembly</descriptor>
+           				</descriptors>
+           
+				 </configuration>
+				</execution>
+				
+					<execution>
+						<id>make-zip-post-aar</id>
+				       	    <phase>verify</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+			      <configuration>
+					<appendAssemblyId>false</appendAssemblyId>
+					<attach>true</attach>
+					<descriptors>
+              				<descriptor>zip-aar.assembly</descriptor>
+           				</descriptors>
+   				 </configuration>
+				</execution>
+						</executions>
+
+			</plugin>
+		<plugin>
+    <groupId>com.coderplus.maven.plugins</groupId>
+    <artifactId>copy-rename-maven-plugin</artifactId>
+    <version>1.0.1</version>
+    <executions>
+      <execution>
+        <id>rename-file</id>
+        <phase>package</phase>
+        <goals>
+          <goal>rename</goal>
+        </goals>
+        <configuration>
+          <sourceFile>target/${project.name}-${project.version}.zip</sourceFile>
+          <destinationFile>target/${project.name}-${project.version}.aar</destinationFile>
+        </configuration>
+      </execution>
+    </executions>
+  </plugin>
+			</plugins>
+	</build>
+</project>

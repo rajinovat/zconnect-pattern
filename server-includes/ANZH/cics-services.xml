@@ -1,0 +1,5 @@
+<server>
+<zosconnect_zosConnectService id="inquireCardService" serviceName="inquireCard" dataXformRef="xformJSON2Byte" serviceDescription="List items in the catalog" serviceRef="wolaARcardInquiry" />
+<zosconnect_zosConnectDataXform id="xformJSON2Byte" bindFileLoc="/u/gcp/vplus/bind" bindFileSuffix=".wsbind" requestSchemaLoc="/u/gcp/vplus/dataXform" responseSchemaLoc="/u/gcp/vplus/dataXform" requestSchemaSuffix=".json" responseSchemaSuffix=".json" />
+<zosconnect_localAdaptersConnectService id="wolaARcardInquiry" registerName="CICSREG" serviceName="AR0001" connectionFactoryRef="wolaCF" />
+</server>
